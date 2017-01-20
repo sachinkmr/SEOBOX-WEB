@@ -74,7 +74,7 @@ public class History extends HttpServlet {
             // All files
             for (String file : files) {
                 if (!new File(dir, file).isDirectory()) {
-                    if (file.equalsIgnoreCase("SEOBOX_Report.html")) {
+                    if (file.equalsIgnoreCase("Report.html")) {
                         String path = dir.substring(dir.indexOf("Reports"));
                         path = path.replaceAll("//", "/");
                         path = address + "/" + path + file;

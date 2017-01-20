@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <display-name>SEO BOX</display-name>
+    <env-entry>
+        <env-entry-name>dbHost</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>localhost</env-entry-value>
+    </env-entry>
+    <env-entry>
+        <env-entry-name>dbUsername</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>user</env-entry-value>
+    </env-entry>
+    <env-entry>
+        <env-entry-name>dbPassword</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>pass</env-entry-value>
+    </env-entry>
+    <env-entry>
+        <env-entry-name>dbPort</env-entry-name>
+        <env-entry-type>java.lang.Integer</env-entry-type>
+        <env-entry-value>27017</env-entry-value>
+    </env-entry>
+    <env-entry>
+        <env-entry-name>dbName</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>SEOBOX</env-entry-value>
+    </env-entry>
     <servlet>
         <servlet-name>History</servlet-name>
         <servlet-class>com.seobox.archives.History</servlet-class>
@@ -10,12 +35,12 @@
         <jsp-file>/WEB-INF/pages/HistoryPage.jsp</jsp-file>
     </servlet>
     <servlet>
-        <servlet-name>FetchRecord</servlet-name>
-        <servlet-class>com.seobox.db.FetchRecord</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Download</servlet-name>
         <servlet-class>com.seobox.archives.Download</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FetchResults</servlet-name>
+        <servlet-class>com.seobox.services.FetchResults</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>History</servlet-name>
@@ -26,13 +51,13 @@
         <url-pattern>/HistoryPage</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>FetchRecord</servlet-name>
-        <url-pattern>/FetchRecord</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>Download</servlet-name>
         <url-pattern>/Download</url-pattern>
         <url-pattern>/download</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FetchResults</servlet-name>
+        <url-pattern>/FetchResults</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>60</session-timeout>

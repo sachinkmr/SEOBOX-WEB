@@ -90,3 +90,9 @@ and open the template in the editor.
 #mask{
     padding: 48px 0 10px 50px;
 }
+#info{
+    text-align: justify;
+}
+#bar-mask{
+    margin-top: 20px;
+}

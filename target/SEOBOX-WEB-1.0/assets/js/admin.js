@@ -16,19 +16,50 @@ $('#addTemp-form').bootstrapValidator({
                     message: 'Name is required'
                 }
             }
+        },
+        fileURL: {
+            validators: {
+                file: {
+                    extension: 'zip',
+                    message: 'Please select a zip file'
+                }, notEmpty: {
+                    message: 'File is required'
+                }
+            }
         }
     }
-}).on('success.form.bv', function(e) {
+}).on('success.form.bv', function (e) {
+    $('.alert').html("");
+    $('.alert').addClass('hidden');
     e.preventDefault();
     var $form = $('#addTemp-form');
-    var bv = $form.data('bootstrapValidator');
-    $.post($form.attr('action'), $form.serialize(), function(result) {
-        $('#addTemp').modal('hide');
-        loadTemplates();
-    });
+    $('#status span').html('Uploading.....');
+    $('#bar').removeClass("hidden");
+    var formData = new FormData(($form)[0]);
+    $.ajax({
+        url: $form.attr('action'),
+        type: 'POST',
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (result) {
+            $('#addTemp').modal('hide');
+            $('#bar').addClass("hidden");
+            var error = result.hasError;
+            if (error == true) {
+                $('.alert').removeClass('hidden');
+                $('.alert').html(result.error);
+                console.error(result.error);
+            } else {
+                loadSchemas();
+            }
+        }
+    });    
 });
 
-$('#addTemp-button').click(function() {
+$('#addTemp-button').click(function () {
     $('#addTemp').modal({
         keyboard: false,
         backdrop: 'static'
@@ -36,44 +67,28 @@ $('#addTemp-button').click(function() {
 });
 
 
-function loadTemplates() {
+function loadSchemas() {
     $.ajax({
-        url: "LoadTemplate",
+        url: "LoadSchemas",
         dataType: 'json',
-        success: function(data, txt, res) {
-            var error = res.getResponseHeader("error");
-            $('#template-table').html('<thead><tr><td>SN</td><td>Template Name</td><td>Delete</td></tr></thead><tbody></tbody>');
-            if (error === 'true') {
-                $('#msg').append(data);
+        success: function (result) {
+            var error = result.hasError;
+            if (error == true) {
+                $('.alert').removeClass('hidden');
+                console.error(result.error);
             } else {
-                $.each(data, function(key, val)
-                {
-                    var a=parseInt(key);
-                    $('#template-table').append('<tr><td>' + ++a + '</td><td>' + val + '</td><td><a href="DeleteTemplate?name='+val+'" class="btn btn-danger delete"><i class="fa fa-trash"></i>&ensp; Delete</a></td></tr>');
+                $('#template-table tbody').html('');
+                $.each(result.list, function (key, val) {
+                    var a = parseInt(key);
+                    $('#template-table tbody').append('<tr><td>' + ++a + '</td><td>' + val + '</td><td><a href="DeleteSchema?name=' + val + '" class="btn btn-danger delete DeleteSchema"><i class="fa fa-trash"></i>&ensp; Delete</a></td></tr>');
                 });
+            }
+        }
+    });
+}
 
-            }
-        }
-    });
-}
-function loadReports() {
-    $.ajax({
-        url: "LoadReports",
-        dataType: 'json',
-        success: function(data, txt, res) {
-            var error = res.getResponseHeader("error");
-             $('#report-table').html('<thead><tr><td>SN</td><td>Site Name</td><td>Date </td><td>Time</td><td>Delete Report</td></tr></thead><tbody></tbody>');
-            if (error === 'true') {
-                $('#msg').append(data);
-            } else {                
-                for(var i=0;i<data.length;i++){                    
-                    $('#report-table').append('<tr><td>'+(i+1)+'</td><td>' + data[i].report.split('\\')[0] + '</td><td>' + data[i].report.split('\\')[1] + '</td><td>' + data[i].report.split('\\')[2] + '</td><td><a href="DeleteReport?name='+data[i].reportPath+'" class="btn btn-danger delete"><i class="fa fa-trash"></i>&ensp; Delete</a></td></tr>');
-                }
-            }
-        }
-    });
-}
-$(document).ready(function() {
-    loadTemplates();
-    loadReports();
+
+$(document).ready(function () {
+    loadSchemas();
+
 });

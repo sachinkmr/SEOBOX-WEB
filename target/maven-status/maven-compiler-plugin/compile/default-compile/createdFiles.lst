@@ -1,5 +1,4 @@
 com\seobox\archives\History.class
 com\seobox\archives\Download.class
-com\seobox\db\FetchRecord.class
 com\seobox\archives\History$1.class
 com\seobox\db\DBManager.class
