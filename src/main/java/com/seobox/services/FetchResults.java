@@ -63,6 +63,7 @@ public class FetchResults extends HttpServlet {
                 FindIterable<Document> find = db.getCollection(report).find(query).sort(new BasicDBObject("_id", 1))
                         .skip(skip).limit(limit);
                 for (Document url : find) {
+                    if(url.containsKey("status"))
                     arr.put(new JSONObject().put("status", url.getString("status")).put("time", url.getString("time"))
                             .put("step", url.getString("step")).put("detail", url.getString("detail"))
                             .put("test_name", url.getString("test_name")));

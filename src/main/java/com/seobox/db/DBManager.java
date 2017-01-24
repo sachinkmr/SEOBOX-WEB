@@ -24,7 +24,7 @@ private final MongoClient mongo;
 	public DBManager() {
 		String host = "localhost";
 		int port = 27017;
-		String db = "JSON_validator";
+		String db = "SEOBOX";
 		try {
 			Context ctx = new InitialContext();
 			Context env = (Context) ctx.lookup("java:comp/env");
