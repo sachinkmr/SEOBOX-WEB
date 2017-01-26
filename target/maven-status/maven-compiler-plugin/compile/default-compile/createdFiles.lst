@@ -1,6 +1,8 @@
 com\seobox\archives\History.class
 com\seobox\services\FetchResults.class
 com\seobox\archives\Download.class
+com\seobox\services\Demo.class
 com\seobox\archives\History$1.class
 com\seobox\db\DBManager.class
+com\seobox\helpers\HelperUtils.class
 com\seobox\services\PageSpeedInsight.class

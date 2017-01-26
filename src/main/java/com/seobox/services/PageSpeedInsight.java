@@ -6,11 +6,13 @@
 package com.seobox.services;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 import com.seobox.db.DBManager;
+import com.seobox.helpers.HelperUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +39,7 @@ public class PageSpeedInsight extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {            
+        try (PrintWriter out = response.getWriter()) {
             String type = request.getParameter("type");
             String report = request.getParameter("report");
             String jsonp = request.getParameter("jsonp");
@@ -49,15 +51,14 @@ public class PageSpeedInsight extends HttpServlet {
                 try (DBManager mngr = new DBManager()) {
                     MongoDatabase db = mngr.getMongoDB();
                     Document url = db.getCollection(report).find(query).first();
-                    arr.put(new JSONObject().put("key", key).put("data", url.getString(type))
-                            .put("type", type));
-                    json.put("rows", arr);
-                    json.put("total_rows", arr.length());
+                    json=new JSONObject().put("key", key).put("data", HelperUtils.parsePageSpeedResponse(url.getString(type)))
+                            .put("type", type);                  
                 }
             } catch (Exception ex) {
                 out.print("error in fetching results from DB. " + ex);
+                Logger.getLogger(PageSpeedInsight.class.getName()).log(Level.SEVERE, null, ex);
             }
-             out.print(jsonp + "(" + json + ")");
+            out.print(jsonp + "(" + json + ")");
         }
     }
 

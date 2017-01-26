@@ -46,6 +46,10 @@
         <servlet-name>PageSpeedInsight</servlet-name>
         <servlet-class>com.seobox.services.PageSpeedInsight</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Demo</servlet-name>
+        <servlet-class>com.seobox.services.Demo</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>History</servlet-name>
         <url-pattern>/History</url-pattern>
@@ -66,6 +70,10 @@
     <servlet-mapping>
         <servlet-name>PageSpeedInsight</servlet-name>
         <url-pattern>/PageSpeedInsight</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Demo</servlet-name>
+        <url-pattern>/Demo</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>60</session-timeout>
