@@ -22,8 +22,6 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 import com.seobox.db.DBManager;
 
-
-
 /**
  *
  * @author sku202
@@ -63,10 +61,11 @@ public class FetchResults extends HttpServlet {
                 FindIterable<Document> find = db.getCollection(report).find(query).sort(new BasicDBObject("_id", 1))
                         .skip(skip).limit(limit);
                 for (Document url : find) {
-                    if(url.containsKey("status"))
-                    arr.put(new JSONObject().put("status", url.getString("status")).put("time", url.getString("time"))
-                            .put("step", url.getString("step")).put("detail", url.getString("detail"))
-                            .put("test_name", url.getString("test_name")));
+                    if (url.containsKey("status")) {
+                        arr.put(new JSONObject().put("status", url.getString("status")).put("time", url.getString("time"))
+                                .put("step", url.getString("step")).put("detail", url.getString("detail"))
+                                .put("test_name", url.getString("test_name")));
+                    }
                 }
                 json.put("rows", arr);
                 json.put("total_rows", arr.length());
@@ -78,7 +77,7 @@ public class FetchResults extends HttpServlet {
         }
     }
 
-	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on
     // the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

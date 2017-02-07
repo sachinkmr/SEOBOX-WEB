@@ -50,6 +50,10 @@
         <servlet-name>Demo</servlet-name>
         <servlet-class>com.seobox.services.Demo</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StructuredData</servlet-name>
+        <servlet-class>com.seobox.services.StructuredData</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>History</servlet-name>
         <url-pattern>/History</url-pattern>
@@ -74,6 +78,10 @@
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
         <url-pattern>/Demo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StructuredData</servlet-name>
+        <url-pattern>/StructuredData</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>60</session-timeout>
