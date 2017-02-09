@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.bson.Document;
-import org.json.JSONArray;
+
 import org.json.JSONObject;
 
 /**
@@ -46,13 +46,12 @@ public class StructuredData extends HttpServlet {
             String key = request.getParameter("key");
             BasicDBObject query = new BasicDBObject("key", key);
             JSONObject json = new JSONObject();
-            JSONArray arr = new JSONArray();
             try {
                 try (DBManager mngr = new DBManager()) {
                     MongoDatabase db = mngr.getMongoDB();
                     Document url = db.getCollection(report).find(query).first();
-//                    json=new JSONObject().put("key", key).put("data", HelperUtils.parsePageSpeedResponse(url.getString(type)))
-//                            .put("type", type);                  
+                    json = new JSONObject().put("key", key).put("data", HelperUtils.parseStructuredDataResponse(url.getString(type)))
+                            .put("type", type);
                 }
             } catch (Exception ex) {
                 out.print("error in fetching results from DB. " + ex);

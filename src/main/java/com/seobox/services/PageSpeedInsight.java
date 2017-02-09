@@ -46,7 +46,6 @@ public class PageSpeedInsight extends HttpServlet {
             String key = request.getParameter("key");
             BasicDBObject query = new BasicDBObject("key", key);
             JSONObject json = new JSONObject();
-            JSONArray arr = new JSONArray();
             try {
                 try (DBManager mngr = new DBManager()) {
                     MongoDatabase db = mngr.getMongoDB();

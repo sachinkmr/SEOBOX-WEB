@@ -87,4 +87,8 @@ public class HelperUtils {
             return summary.getString("format");
         }
     }
+
+    public static String parseStructuredDataResponse(String string) {
+        return new JSONObject(string).toString(2);
+    }
 }
