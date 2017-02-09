@@ -40,7 +40,6 @@ public class StructuredData extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String type = request.getParameter("type");
             String report = request.getParameter("report");
             String jsonp = request.getParameter("jsonp");
             String key = request.getParameter("key");
@@ -50,8 +49,7 @@ public class StructuredData extends HttpServlet {
                 try (DBManager mngr = new DBManager()) {
                     MongoDatabase db = mngr.getMongoDB();
                     Document url = db.getCollection(report).find(query).first();
-                    json = new JSONObject().put("key", key).put("data", HelperUtils.parseStructuredDataResponse(url.getString(type)))
-                            .put("type", type);
+                    json = new JSONObject().put("key", key).put("data", HelperUtils.parseStructuredDataResponse(url.getString("data")));
                 }
             } catch (Exception ex) {
                 out.print("error in fetching results from DB. " + ex);
