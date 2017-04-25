@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <display-name>SEO BOX</display-name>
+    <context-param>
+        <param-name>jenkinsUrl</param-name>
+        <param-value>http://10.207.16.9/jenkins/</param-value>
+    </context-param>
+    <context-param>
+        <param-name>jenkinsJob</param-name>
+        <param-value>SEOBOX</param-value>
+    </context-param>
     <env-entry>
         <env-entry-name>dbHost</env-entry-name>
         <env-entry-type>java.lang.String</env-entry-type>
@@ -54,6 +62,18 @@
         <servlet-name>StructuredData</servlet-name>
         <servlet-class>com.seobox.services.StructuredData</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Build</servlet-name>
+        <servlet-class>com.seobox.web.Build</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FileUploadServlet</servlet-name>
+        <servlet-class>com.seobox.web.FileUploadServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Polling</servlet-name>
+        <servlet-class>com.seobox.web.Polling</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>History</servlet-name>
         <url-pattern>/History</url-pattern>
@@ -82,6 +102,18 @@
     <servlet-mapping>
         <servlet-name>StructuredData</servlet-name>
         <url-pattern>/StructuredData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Build</servlet-name>
+        <url-pattern>/Build</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileUploadServlet</servlet-name>
+        <url-pattern>/FileUploadServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Polling</servlet-name>
+        <url-pattern>/Polling</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>60</session-timeout>

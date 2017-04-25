@@ -2,19 +2,6 @@ var start = 0;
 var poll = true;
 var bttn = $('#single-site-form .sbmt');
 
-// loading schemas branches
-$.ajax({
-    url: "FetchSchemaBranches",
-    type: 'POST',
-    dataType: 'json',
-    cache: false,
-    success: function (result) {
-         $('select#schema').html('');
-        $.each(result.list, function (key, val) {
-            $('select#schema').append('<option value='+val+'>'+val+'</option>');
-        });
-    }
-});
 
 $(document).ready(function () {
     var timer;
@@ -24,6 +11,7 @@ $(document).ready(function () {
         type: 'POST',
         singleFileUploads: true,
         autoUpload: true,
+        replaceFileInput: false,
         progress: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
             $('#orangeBar').css(
@@ -37,7 +25,6 @@ $(document).ready(function () {
             data.context = $('<p/>').text('Uploading...').appendTo("#orangeBar");
             bttn.addClass('disabled');
             data.submit();
-
         },
         done: function (e, data) {
             data.context.text('Upload Finished');
@@ -54,7 +41,11 @@ $(document).ready(function () {
         }
     });
 
-    $('#single-site-form').bootstrapValidator({
+    $('#single-site-form')
+            .find('#fileURL')
+            .change(function (e) {
+                $('#single-site-form').bootstrapValidator('revalidateField', 'fileURL');
+            }).end().bootstrapValidator({
         // container: '.messages',
         feedbackIcons: {
             invalid: 'glyphicon glyphicon-remove',
@@ -71,18 +62,17 @@ $(document).ready(function () {
                     }
                 }
             },
-            fileURL: {
-                validators: {
-                    file: {
-                        extension: 'properties',
-                        message: 'Please select a property file'
-                    }
-                }
-            },
             username: {
                 validators: {
                     notEmpty: {
                         message: 'Username is required'
+                    }
+                }
+            },
+            password: {
+                validators: {
+                    notEmpty: {
+                        message: 'Password is required'
                     }
                 }
             },
@@ -93,13 +83,14 @@ $(document).ready(function () {
 //                    }
 //                }
 //            },
-            password: {
+            fileURL: {
                 validators: {
-                    notEmpty: {
-                        message: 'Password is required'
+                    file: {
+                        extension: 'properties',
+                        message: 'Please select a java properties file'
                     }
                 }
-            }
+            },
         }
     }).on('success.form.bv', function (e) {
         e.preventDefault();
@@ -117,6 +108,7 @@ $(document).ready(function () {
             cache: false,
             data: $form.serialize(),
             success: function (result) {
+                var poll = false;
                 $('#CrawlerConfigFile').val("");
                 $('#single-site-form').trigger('reset');
                 $('#mask').css('opacity', '0.9');
@@ -128,14 +120,19 @@ $(document).ready(function () {
                     msg = "You can wait until its complete or follow this <a target='_blank' href='" + result.url + "'>link</a> for detail information. ";
                     $("#mask #info #buildID").val(result.buildID);
                     $("#mask #info #buildUrl").val(result.url);
+                    poll = true;
                 }
                 if (result.status == "inQueue") {
-                    msg = "<br/><b>Reason: </b>" + result.reason + "Another site is running the test suite already. Your suite will run after suite is complete. You can wait until all validations are complete or follow this <a target='_blank' href='" + result.builds + "'>link</a> for detail information. ";
+                    msg = "<br/><b>Reason: </b>" + result.reason + "<br/><b>Message: </b>Another site is running the test suite already. Your suite will run after suite is complete. You can wait until all validations are complete or follow this <a target='_blank' href='" + result.builds + "'>link</a> for detail information. ";
                     $("#mask #info #queueUrl").val(result.url);
+                    poll = true;
                 }
-                $("#mask #info #msgs p").html("<b>Message: </b>");
+                $("#mask #info #msgs p").html("");
                 $("#mask #info p").append(msg);
-                timer = setInterval(ajax_call, 4000);
+                if (poll) {
+                    timer = setInterval(ajax_call, 4000);
+                }
+
             }
         });
     });
@@ -147,7 +144,7 @@ $(document).ready(function () {
             buildID: $('#info #buildID').val(),
             queueUrl: $('#info #queueUrl').val(),
             buildUrl: $('#info #buildUrl').val(),
-            start: start
+            start: $('#mask #info #start').val()
         }
         $.ajax({
             url: 'Polling',
@@ -169,7 +166,7 @@ $(document).ready(function () {
                     $("#mask #info #buildUrl").val(result.url);
                     $("#mask img").addClass("hidden");
                     $("#mask h3").html("Completed");
-                    $("#resultsData").html(result.info);
+//                    $("#resultsData").html(result.info);
                     $("#mask #bar-mask").addClass('hidden');
                 }
                 if (result.status == "inQueue") {
@@ -181,8 +178,7 @@ $(document).ready(function () {
                     $("#mask #info #buildID").val(result.buildID);
                     $("#mask #info #buildUrl").val(result.url);
                     $("#resultsData").append(result.info);
-                    $('#info #start').val(result.info.length);
-                    start = result.length;
+                    $('#info #start').val(result.length);
                 }
                 $("#mask #info #msgs").html("<b>Message: </b>" + msg);
             }
@@ -203,11 +199,4 @@ $('#setAuthentication').click(function () {
     }
 });
 
-$("#CrawlSite").change(function () {
-    if ($('#CrawlSite').find(":selected").val() == "Yes") {
-        $(".crawler").removeClass('hidden');
-    } else {
-        $(".crawler").addClass('hidden');
-    }
-});
 

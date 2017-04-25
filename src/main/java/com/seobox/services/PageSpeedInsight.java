@@ -40,23 +40,24 @@ public class PageSpeedInsight extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String type = request.getParameter("type");
             String report = request.getParameter("report");
             String jsonp = request.getParameter("jsonp");
             String key = request.getParameter("key");
             BasicDBObject query = new BasicDBObject("key", key);
             JSONObject json = new JSONObject();
+            JSONArray arr = new JSONArray();
             try {
                 try (DBManager mngr = new DBManager()) {
                     MongoDatabase db = mngr.getMongoDB();
                     Document url = db.getCollection(report).find(query).first();
-                    json=new JSONObject().put("key", key).put("data", HelperUtils.parsePageSpeedResponse(url.getString(type)))
-                            .put("type", type);                  
+                    arr.put(new JSONObject().put("mobile", url.get("mobile")).put("desktop", url.get("desktop")));
                 }
             } catch (Exception ex) {
                 out.print("error in fetching results from DB. " + ex);
                 Logger.getLogger(PageSpeedInsight.class.getName()).log(Level.SEVERE, null, ex);
             }
+            json.put("rows", arr);
+            json.put("total_rows", arr.length());
             out.print(jsonp + "(" + json + ")");
         }
     }

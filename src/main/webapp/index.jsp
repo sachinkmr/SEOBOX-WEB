@@ -8,7 +8,7 @@
 <%
     String address = request.getRequestURL().toString().substring(0, request.getRequestURL().toString().lastIndexOf('/'));
     session.setAttribute("address", address);
-
+    //response.sendRedirect("HistoryPage");
 %>
 <!DOCTYPE html>
 <html>
@@ -29,7 +29,7 @@
                             <div class="" id="sachin">
                                 <div class="tool-header">
                                     <h1>Get Started...</h1>
-                                    <h4>Validate Site components JSON</h4>
+                                    <h4>Validate Site SEO checklist and performance</h4>
                                 </div>
                             </div>
                             <div class="hidden" id="mask">
@@ -93,36 +93,13 @@
                                                     </div> 
                                                 </div>
                                             </div>                                            
-                                            <div class="form-group row">                 
-                                                <label for="schema" class="col-md-2 col-form-label">Schema Branch: </label>
-                                                <div class="col-md-10  form-section row">
-                                                    <div class="form-group "> 
-                                                        <div class="input-group col-md-12">
-                                                            <select id="schema" name="schema" class="form-control" title ="Select schema branch to validate JSON" data-toggle="tooltip">
-                                                                
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">                 
-                                                <label for="CrawlSite" class="col-md-2 col-form-label">Crawl Site: </label>
-                                                <div class="col-md-10  form-section row">
-                                                    <div class="form-group "> 
-                                                        <div class="input-group col-md-12">
-                                                            <select id="CrawlSite" name="CrawlSite" class="form-control" title ="Select Yes if you want to run suite on all pages in site" data-toggle="tooltip">
-                                                                <option value="No"> No</option>
-                                                                <option value="Yes"> Yes</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class=" form-group crawler row hidden">
+                                           
+                                            
+                                            <div class=" form-group crawler row">
                                                 <label for="fileURL" class="col-md-2 col-form-label">Crawl Config: </label>
                                                 <div class="col-md-10  form-section row">
                                                     <div class="form-group ">
-                                                        <div class="input-group col-md-12">
+                                                        <div class="input-group">
                                                             <span class="input-group-addon">
                                                                 <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
                                                             </span>                                        
@@ -137,7 +114,7 @@
                                                             <div class='clearfix'></div>
                                                         </div> 
                                                         <div class=''>
-                                                            <p>View Sample File: <a target="_blank" href="http://10.207.16.9/JSON-Validator/Config.properties"> http://10.207.16.9/JSON-Validator/Config.properties</a> </p>
+                                                            <p>View Sample File: <a target="_blank" href="http://10.207.16.9/SEOBOX/Config.properties"> http://10.207.16.9/SEOBOX/Config.properties</a> </p>
                                                             <div class='clearfix'></div>
                                                         </div>
                                                     </div>

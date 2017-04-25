@@ -5,6 +5,9 @@
  */
 package com.seobox.helpers;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -90,5 +93,20 @@ public class HelperUtils {
 
     public static String parseStructuredDataResponse(String string) {
         return new JSONObject(string).toString(2);
+    }
+    
+      /**
+     * Method returns the unique string based on time stamp
+     *
+     *
+     * @return unique string
+     */
+    public static String generateUniqueString() {
+        DateFormat df = new SimpleDateFormat("dd-MMMM-yyyy");
+        DateFormat df1 = new SimpleDateFormat("hh-mm-ss-SSaa");
+        Calendar calobj = Calendar.getInstance();
+        String time = df1.format(calobj.getTime());
+        String date = df.format(calobj.getTime());
+        return date + "_" + time;
     }
 }
