@@ -74,6 +74,10 @@
         <servlet-name>Polling</servlet-name>
         <servlet-class>com.seobox.web.Polling</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CleanReports</servlet-name>
+        <servlet-class>com.seobox.archives.CleanReports</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>History</servlet-name>
         <url-pattern>/History</url-pattern>
@@ -114,6 +118,10 @@
     <servlet-mapping>
         <servlet-name>Polling</servlet-name>
         <url-pattern>/Polling</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CleanReports</servlet-name>
+        <url-pattern>/CleanReports</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>60</session-timeout>

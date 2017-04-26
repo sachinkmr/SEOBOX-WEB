@@ -185,10 +185,18 @@ $(document).ready(function () {
         });
 
     };
+    // cleaning reports
+    cleanReport();
 });
 
 
-
+function cleanReport() {
+    $.ajax({
+        type: "GET",
+        url: "CleanReports",
+        dataType: "json"        
+    });
+}
 $('#setAuthentication').click(function () {
     if ($('#setAuthentication').is(':checked')) {
         $('#username').removeAttr('disabled');
