@@ -72,6 +72,7 @@ public class FetchResults extends HttpServlet {
                 mngr.close();
             } catch (Exception ex) {
                 out.print("error in fetching results from DB. " + ex);
+                response.sendError(500, ex.getMessage());
             }
             out.print(jsonp + "(" + json + ")");
         }

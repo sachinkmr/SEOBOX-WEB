@@ -94,6 +94,10 @@ $(document).ready(function () {
         }
     }).on('success.form.bv', function (e) {
         e.preventDefault();
+        e.stopImmediatePropagation();
+        if ($('#single-site-form').hasClass('submitting'))
+            return;
+        $('#single-site-form').addClass('submitting');
         $("#mask img").removeClass("hidden");
         $('#mask').removeClass('hidden');
         $('#mask').css('display', " block");
@@ -162,7 +166,7 @@ $(document).ready(function () {
                 if (result.status == "Complete" || !result.polling) {
                     clearInterval(timer);
                     poll = false;
-                    msg = "Test Suite is complete. View <a target='_blank' href='" + result.report + "'>report</a>. ";
+                    msg = "Test Suite is complete. View <a target='_blank' href='HistoryPage'>report</a>. ";
                     $("#mask #info #buildUrl").val(result.url);
                     $("#mask img").addClass("hidden");
                     $("#mask h3").html("Completed");
@@ -194,7 +198,7 @@ function cleanReport() {
     $.ajax({
         type: "GET",
         url: "CleanReports",
-        dataType: "json"        
+        dataType: "json"
     });
 }
 $('#setAuthentication').click(function () {
